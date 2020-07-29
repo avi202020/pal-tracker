@@ -10,7 +10,7 @@ env:
   K8S_CLUSTER_NAME: pal-for-devs-k8s
 
 jobs:
-  build-pack-and-publish:
+  build-and-publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -19,15 +19,12 @@ jobs:
         with:
           java-version: 11
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew bootBuildImage --imageName=${{env.DOCKER_HUB_USERNAME}}/pal-tracker:build-${{github.run_number}}
       - run: sudo curl -sSl https://get.docker.com/ | sh
       - run: docker login -u "${{env.DOCKER_HUB_USERNAME}}" -p "${{secrets.DOCKER_HUB_PASSWORD}}"
-      - run: curl -LO https://github.com/buildpacks/pack/releases/download/v0.10.0/pack-v0.10.0-linux.tgz
-      - run: tar xvf pack-v0.10.0-linux.tgz
-      - run: rm pack-v0.10.0-linux.tgz
-      - run: ./pack build ${{env.DOCKER_HUB_USERNAME}}/pal-tracker:build-${{github.run_number}} --builder cloudfoundry/cnb:bionic --publish
+      - run: docker push ${{env.DOCKER_HUB_USERNAME}}/pal-tracker:build-${{github.run_number}}
   deploy:
-    needs: build-pack-and-publish
+    needs: build-and-publish
     runs-on: ubuntu-latest
     steps:
       - run: echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
