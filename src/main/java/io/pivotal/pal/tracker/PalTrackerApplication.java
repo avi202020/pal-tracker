@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 public class PalTrackerApplication {
 
     @Bean
-    public TimeEntryRepository getTimeEntryRepositoryBean() {
+    TimeEntryRepository timeEntryRepository() {
         return new InMemoryTimeEntryRepository();
     }
 
