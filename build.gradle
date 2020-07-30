@@ -31,7 +31,7 @@ bootRun.environment([
         "MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE": "*",
         "MANAGEMENT_ENDPOINT_HEALTH_SHOWDETAILS": "always",
         "MANAGEMENT_HEALTH_PROBES_ENABLED": true,
-        "MANAGEMENT_ENDPOINT_HEALTH_GROUP_READINESS_INCLUDE": "backingService",
+        "MANAGEMENT_ENDPOINT_HEALTH_GROUP_READINESS_INCLUDE": "backingService,db",
         "SPRING_DATASOURCE_URL": "jdbc:postgresql://localhost:5432/tracker_dev?user=tracker&password=password",
 ])
 

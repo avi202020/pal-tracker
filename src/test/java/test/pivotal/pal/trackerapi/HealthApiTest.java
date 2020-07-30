@@ -30,6 +30,7 @@ public class HealthApiTest {
         assertThat(healthJson.read("$.components.diskSpace.status", String.class)).isEqualTo("UP");
         assertThat(healthJson.read("$.components.ping.status", String.class)).isEqualTo("UP");
         assertThat(healthJson.read("$.components.backingService.status", String.class)).isEqualTo("UP");
+        assertThat(healthJson.read("$.components.db.status", String.class)).isEqualTo("UP");
 
         ResponseEntity<Void> simulateFailurePostResponse = postSimulateFailure();
 
